@@ -2,7 +2,7 @@ import { FC,memo } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./header.module.css";
 import { Moon, Sun } from "phosphor-react";
-
+// import { motion } from "framer-motion";
 interface HeaderProps {
   onClick: () => void;
   darkMode: boolean;
