@@ -1,36 +1,55 @@
-import {  useNavigate } from "react-router-dom";
-import { memo, FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { memo, FC, MouseEvent } from "react";
 
 import styles from "./card.module.css";
 
 interface CardProps {
   key: number;
-  src: string;
+  avatarUrl: string;
   username: string;
   user: string | undefined;
 }
 
-const Card: FC<CardProps> = ({ src, username, user }) => {
+const Card: FC<CardProps> = ({ avatarUrl, username, user }) => {
+  const navigate = useNavigate();
+
+  const handleInfo = (event: MouseEvent<HTMLButtonElement>): void => {};
   return (
-    <div className={styles.card}>
-      <div className={styles.info}>
-        <div className={styles.userAndImg}>
-          <img src={src} alt={username} loading="lazy" />
-          <p>{`@${username}`}</p>
+    <div
+      className={styles.card}
+      role="article"
+      aria-label={`GitHub user card for ${username}`}
+    >
+      <div className={styles.info} role="contentinfo">
+        <div className={styles.userAndImg} aria-label="User information">
+          <img
+            src={avatarUrl}
+            alt={`Profile picture of ${username}`}
+            loading="lazy"
+          />
+          <p id={`username-${username}`}>{`@${username}`}</p>
         </div>
       </div>
-      <form className={styles.features}>
+      <div className={styles.features} role="group" aria-label="User actions">
         <a
           className={styles.profileBtn}
           target="_blank"
           href={`https://github.com/${username}`}
           rel="noreferrer"
+          aria-label={`Visit ${username}'s GitHub profile`}
         >
-        Profile
+          <span>Profile</span>
         </a>
 
-        <button className={styles.infoBtn}>More Info</button>
-      </form>
+        <button
+          className={styles.infoBtn}
+          type="button"
+          aria-label={`View more information about ${username}`}
+          onClick={handleInfo}
+        >
+          More Info
+        </button>
+      </div>
     </div>
   );
 };

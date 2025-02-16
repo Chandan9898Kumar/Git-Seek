@@ -35,14 +35,14 @@ type ProductList= Product & Partial<ProductOptional>
 const IndexPage = () => {
   const [userList, setUserList] = useState<ProductList[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<string>("");
+  const [isError, setIsError] = useState<string | null>(null);
 
   //   NOTE : Here we have used Promise<void> instead of void, because :
   // 1. All async functions return Promises by default.
   // 2. TypeScript needs to know the type of value that the Promise will resolve to
   // 3. In this case, since we're not returning anything (just setting state), we use Promise<void>
   const FetchUserDetails = async (): Promise<void> => {
-    setIsError("");
+    setIsError(null);
     try {
       const response = await fetch(URL);
 
@@ -63,14 +63,14 @@ const IndexPage = () => {
     FetchUserDetails();
   }, []);
 
-  console.log(userList);
+  console.log(isLoading,isError);
   return (
     <div className={styles.home}>
       {userList?.map((users) => {
         return (
           <Card
             key={users.id}
-            src={users.avatar_url}
+            avatarUrl={users.avatar_url}
             username={users.login}
             user={users.name}
           />
