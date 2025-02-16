@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { ProductList } from "../../Interface/Interface";
 import styles from "./index.module.css";
 import Card from "../../Components/Card/Card";
+import Loader from "../../Components/Loader/Loader";
 const URL = "https://api.github.com/users";
-
 
 const IndexPage = () => {
   const [userList, setUserList] = useState<ProductList[]>([]);
@@ -36,7 +36,14 @@ const IndexPage = () => {
     FetchUserDetails();
   }, []);
 
-  
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <p>Something Went Wrong ...</p>;
+  }
+
   return (
     <div className={styles.home}>
       {userList?.map((users) => {

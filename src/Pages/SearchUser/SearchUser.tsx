@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import Card from "../../Components/Card/Card";
 import { ProductList } from "../../Interface/Interface";
 import styles from "./search.module.css";
-
+import NoResults from "../../Components/ResultNotFound/NoResult";
+import Loader from "../../Components/Loader/Loader";
 const SearchUser = () => {
   const { name } = useParams();
-  const [totalCountUsers, setTotalCountUsers] = useState<number>();
+  const [totalCountUsers, setTotalCountUsers] = useState<number | null>(null);
   const [userList, setUserList] = useState<ProductList[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<string | null>(null);
@@ -36,12 +37,28 @@ const SearchUser = () => {
     FetchUserDetails();
   }, [name]);
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!totalCountUsers || isError) {
+    return (
+      <NoResults
+        message={
+          isError
+            ? isError
+            : `${totalCountUsers} users found / ${userList.length} users displayed`
+        }
+      />
+    );
+  }
+
   return (
-    <main className={styles.home} role="main">
+    <section  className={styles.home} role="section">
       <div className={styles.usersCount} aria-live="polite">
         <p>
-          <span aria-label="Total users found">{totalCountUsers || 0}</span>{" "}
-          users found /{" "}
+          <span aria-label="Total users found">{totalCountUsers}</span> users
+          found /{" "}
           <span aria-label="Users currently displayed">{userList.length}</span>{" "}
           users displayed
         </p>
@@ -63,7 +80,7 @@ const SearchUser = () => {
           );
         })}
       </div>
-    </main>
+    </section >
   );
 };
 
