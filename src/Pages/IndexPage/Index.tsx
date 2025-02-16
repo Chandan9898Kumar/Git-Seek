@@ -1,36 +1,9 @@
 import { useState, useEffect } from "react";
-
+import { ProductList } from "../../Interface/Interface";
 import styles from "./index.module.css";
 import Card from "../../Components/Card/Card";
 const URL = "https://api.github.com/users";
 
-interface Product {
-  id: number;
-  avatar_url: string;
-  login: string;
-}
-
-interface ProductOptional {
-  events_url: string;
-  followers_url: string;
-  following_url: string;
-  gists_url: string;
-  gravatar_id: string;
-  html_url: string;
-  node_id: string;
-  organizations_url: string;
-  received_events_url: string;
-  repos_url: string;
-  site_admin: boolean;
-  starred_url: string;
-  subscriptions_url: string;
-  type: string;
-  url: string;
-  user_view_type: string;
-  name:string
-}
-
-type ProductList= Product & Partial<ProductOptional>
 
 const IndexPage = () => {
   const [userList, setUserList] = useState<ProductList[]>([]);
@@ -63,7 +36,7 @@ const IndexPage = () => {
     FetchUserDetails();
   }, []);
 
-  console.log(isLoading,isError);
+  
   return (
     <div className={styles.home}>
       {userList?.map((users) => {

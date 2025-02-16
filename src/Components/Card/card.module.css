@@ -7,11 +7,9 @@
   border-radius: 1rem;
   padding: 2rem 0.5rem;
   box-shadow: 0 5px 10px var(--shadow-color);
-  transition:  transform 0.5s ease-in-out;
-
-  &:hover{
-    transform: translateY(-8px);
-  }
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .card img {
