@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams  } from "react-router-dom";
 import Card from "../../Components/Card/Card";
 import { ProductList } from "../../Interface/Interface";
 import styles from "./search.module.css";
 import NoResults from "../../Components/ResultNotFound/NoResult";
 import Loader from "../../Components/Loader/Loader";
 const SearchUser = () => {
-  const { name } = useParams();
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get('q'); 
   const [totalCountUsers, setTotalCountUsers] = useState<number | null>(null);
   const [userList, setUserList] = useState<ProductList[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);

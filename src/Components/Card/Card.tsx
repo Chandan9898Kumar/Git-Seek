@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { memo, FC, MouseEvent } from "react";
 import { motion } from "framer-motion";
 import styles from "./card.module.css";
-
+import { useSearchParams  } from "react-router-dom";
 interface CardProps {
   key?: number;
   avatarUrl: string;
   username: string;
-  user: string | undefined;
+  user: string | undefined | null;
 }
 
 // Card animation variants
@@ -38,8 +38,14 @@ const cardVariants = {
 
 const Card: FC<CardProps> = ({ avatarUrl, username, user }) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get('q'); 
 
-  const handleInfo = (event: MouseEvent<HTMLButtonElement>): void => {};
+  const handleInfo = (event: MouseEvent<HTMLButtonElement>): void => {
+
+  };
+
+
   return (
     <motion.div
       className={styles.card}

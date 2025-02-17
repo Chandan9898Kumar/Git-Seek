@@ -25,8 +25,8 @@ const Search = () => {
     const form = event.currentTarget;
     const formData = new FormData(form);
     const value = formData.get("username");
-    navigate(`users/${value}`);
-    setInputText("")
+    navigate(`/users?q=${value}`);
+    setInputText("");
   };
 
   return (
