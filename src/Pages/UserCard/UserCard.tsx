@@ -1,12 +1,28 @@
-import { useState, useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../../Components/Loader/Loader";
+import UserDetails from "../../Components/UserDetails/UserDetails";
+import { UserDetailedInfo } from "../../Interface/UserCardInterface";
 import styles from "./usercard.module.css";
-
-import { useParams, NavLink } from "react-router-dom";
-
+import NotFoundView from '../../Error/NotFound'
+const DefaultValue = {
+  created_at: new Date(),
+  avatar_url: "",
+  company: "",
+  name: "",
+  login: "",
+  bio: "",
+  public_repos: 0,
+  following: 0,
+  followers: 0,
+  twitter_username: "",
+  location: "",
+  blog: "",
+};
 const UserCard = () => {
-  const name = useParams();
-  const [useData, setUserData] = useState([]);
+  const { name } = useParams();
+  const navigate = useNavigate();
+  const [useData, setUserData] = useState<UserDetailedInfo>(DefaultValue);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<string | null>(null);
 
@@ -32,19 +48,26 @@ const UserCard = () => {
     fetchUserData();
   }, [name]);
 
-  console.log(useData,'useData',name)
+  const handleNavigateBack = (): void => {
+    navigate(-1);
+  };
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <NotFoundView isError={isError}/>;
+  }
+console.log(isError,'isError')
   return (
     <div className={styles.user}>
       <div className={styles.userResults}>
-        {/* <UserDetails user={userData} /> */}
+        <UserDetails userInformation={useData} />
       </div>
-      {/* <NavLink
-        to={name !== "undefined" ? `/users/${name}` : `/`}
-        title="Index"
-      >
-        <button>Back To Results</button>
-      </NavLink> */}
+      <button type="button" aria-label="Go Back" onClick={handleNavigateBack}>
+        Back To Results
+      </button>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { memo, FC, MouseEvent } from "react";
 import { motion } from "framer-motion";
 import styles from "./card.module.css";
-import { useSearchParams  } from "react-router-dom";
+
 interface CardProps {
   key?: number;
   avatarUrl: string;
@@ -12,39 +12,35 @@ interface CardProps {
 
 // Card animation variants
 const cardVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    hover: {
-      scale: 1.05,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
-
-  // Button animation variants
-  const buttonVariants = {
-    hover: {
-      scale: 1.05,
-      transition: {
-        duration: 0.2
-      }
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.5,
     },
-    tap: {
-      scale: 0.95
-    }
-  };
+  },
+};
 
+// Button animation variants
+const buttonVariants = {
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.2,
+    },
+  },
+  tap: {
+    scale: 0.95,
+  },
+};
 
-const Card: FC<CardProps> = ({ avatarUrl, username, user }) => {
+const Card: FC<CardProps> = ({ avatarUrl, username }) => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const name = searchParams.get('q'); 
 
   const handleInfo = (event: MouseEvent<HTMLButtonElement>): void => {
-
+    navigate(`/users/${username}`);
   };
-
 
   return (
     <motion.div
@@ -58,8 +54,8 @@ const Card: FC<CardProps> = ({ avatarUrl, username, user }) => {
       transition={{ duration: 0.3 }}
     >
       <div className={styles.info} role="contentinfo">
-        <motion.div 
-          className={styles.userAndImg} 
+        <motion.div
+          className={styles.userAndImg}
           aria-label="User information"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
