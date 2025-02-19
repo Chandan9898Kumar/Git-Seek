@@ -4,9 +4,9 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
-
+import { ErrorMessage } from "../utils";
 interface ErrorProps {
-  isError?: string;
+  isError?: ErrorMessage;
 }
 
 // Used const as an assertion in TypeScript .
@@ -28,38 +28,6 @@ const imageStyle = {
   my: { xs: 5, sm: 10 },
 } as const; // Type is readonly:
 
-type ErrorMessage = {
-  title: string;
-  message: string;
-};
-
-const getErrorMessage = (status: number): ErrorMessage => {
-  switch (status) {
-    case 404:
-      return {
-        title: "User Not Found",
-        message:
-          "We couldn't find the GitHub user you're looking for. Please check the username and try again.",
-      };
-    case 403:
-      return {
-        title: "Rate Limit Exceeded",
-        message:
-          "You've hit the GitHub API rate limit. Please try again in a few minutes.",
-      };
-    case 500:
-      return {
-        title: "Server Error",
-        message: "Something went wrong on our end. Please try again later.",
-      };
-    default:
-      return {
-        title: "Oops! Something Went Wrong",
-        message: "An unexpected error occurred. Please try again.",
-      };
-  }
-};
-
 const NotFoundView: FC<ErrorProps> = ({ isError }) => {
   const navigate = useNavigate();
 
@@ -69,12 +37,11 @@ const NotFoundView: FC<ErrorProps> = ({ isError }) => {
   return (
     <Container style={containerStyle}>
       <Typography variant="h3" sx={{ mb: 2 }}>
-        Sorry, page not found!
+        {isError?.title}
       </Typography>
 
       <Typography sx={{ color: "text.secondary" }}>
-        Sorry, we couldn&apos;t find the page you&apos;re looking for. Perhaps
-        you&apos;ve mistyped the URL? Be sure to check your spelling.
+        {isError?.message}
       </Typography>
 
       <Box

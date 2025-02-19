@@ -6,6 +6,7 @@ import Loader from "../../Components/Loader/Loader";
 import UserDetails from "../../Components/UserDetails/UserDetails";
 import NotFoundView from "../../Error/NotFound";
 import { UserDetailedInfo } from "../../Interface/UserCardInterface";
+import { extractNumberSafe, getErrorMessage } from "../../utils";
 import styles from "./usercard.module.css";
 
 const DefaultValue = {
@@ -113,7 +114,9 @@ const UserCard = () => {
   }
 
   if (isError) {
-    return <NotFoundView isError={isError} />;
+    return (
+      <NotFoundView isError={getErrorMessage(extractNumberSafe(isError))} />
+    );
   }
 
   return (

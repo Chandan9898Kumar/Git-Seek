@@ -39,6 +39,10 @@ const Card: FC<CardProps> = ({ avatarUrl, username }) => {
   const navigate = useNavigate();
 
   const handleInfo = (event: MouseEvent<HTMLButtonElement>): void => {
+    //  above i have used event but did not use it anywhere, so it throwing error : 'event' is defined but never used.
+    //  to hide it i used : > 1. _event >  Using underscore prefix  OR  Below .
+    void event; // This explicitly acknowledges the unused parameter.
+
     navigate(`/users/${username}`);
   };
 
