@@ -1,6 +1,6 @@
 # Git-Seek 🔍
 
-A modern GitHub user search application built with React, TypeScript, and Vite that allows users to find and explore GitHub profiles efficiently.
+A modern GitHub user search application built with React, TypeScript that allows users to find and explore GitHub profiles efficiently.
 
 ## Features ✨
 
