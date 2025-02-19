@@ -1,7 +1,17 @@
-import { Browser, Buildings, MapPin, TwitterLogo } from "phosphor-react";
+import {
+  Browser,
+  Buildings,
+  MapPin,
+  TwitterLogo,
+  Books,
+  Users,
+  UserPlus,
+} from "phosphor-react";
 import { FC, useMemo } from "react";
+import { motion } from "framer-motion";
 import { UserDetailedInfo } from "../../Interface/UserCardInterface";
 import styles from "./details.module.css";
+
 interface DetailsProps {
   userInformation: UserDetailedInfo;
 }
@@ -39,14 +49,51 @@ const UserDetails: FC<DetailsProps> = (props) => {
     return convertDate(props.userInformation?.created_at);
   }, [props.userInformation?.created_at]);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  };
+
+  const scaleVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
-    <div
+    <motion.div
       className={styles.userDetails}
       role="article"
       aria-label="GitHub User Profile"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
     >
-      <header>
-        <div className={styles.headerImg}>
+      <motion.header variants={itemVariants}>
+        <motion.div
+          className={styles.headerImg}
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
           <img
             src={props.userInformation?.avatar_url}
             alt={`Profile picture of ${
@@ -56,73 +103,122 @@ const UserDetails: FC<DetailsProps> = (props) => {
             }`}
             loading="lazy"
           />
-        </div>
-        <div className={styles.headerName}>
-          <div className={styles.userName}>
-            <h1 tabIndex={0}>
+        </motion.div>
+        <motion.div className={styles.headerName} variants={itemVariants}>
+          <motion.div className={styles.userName} variants={itemVariants}>
+            <motion.h1 tabIndex={0}>
               {props.userInformation?.name || props.userInformation?.login}
-            </h1>
-            <a
+            </motion.h1>
+            <motion.a
               href={`https://github.com/${props.userInformation?.login}`}
               target="_blank"
               rel="noreferrer"
               aria-label={`Visit ${props.userInformation?.login}'s GitHub profile`}
+              whileHover={{ scale: 1.05 }}
             >
               @{props.userInformation?.login}
-            </a>
-          </div>
-          <p tabIndex={0} aria-label={`Joined GitHub on ${joinDate}`}>
+            </motion.a>
+          </motion.div>
+          <motion.p
+            tabIndex={0}
+            aria-label={`Joined GitHub on ${joinDate}`}
+            variants={itemVariants}
+          >
             Joined {joinDate}
-          </p>
-        </div>
-      </header>
-      <main>
-        <div
+          </motion.p>
+        </motion.div>
+      </motion.header>
+
+      <motion.main variants={itemVariants}>
+        <motion.div
           className={styles.userBio}
           tabIndex={0}
           role="region"
           aria-label="User biography"
+          variants={itemVariants}
         >
           {props.userInformation?.bio || "This profile has no bio."}
-        </div>
-        <div
+        </motion.div>
+
+        <motion.div
           className={styles.userInfo}
           role="list"
           aria-label="User statistics"
+          variants={scaleVariants}
         >
-          <div className={styles.userInfoItem} role="listitem">
+          <motion.div
+            className={styles.userInfoItem}
+            role="listitem"
+            whileHover={{ scale: 1.05 }}
+            variants={itemVariants}
+          >
+            <motion.div
+              whileHover={{ rotate: 15 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Books size={24} weight="bold" aria-hidden="true" />
+            </motion.div>
             <p id="repos-label">Repos</p>
             <strong aria-labelledby="repos-label" tabIndex={0}>
               {props.userInformation?.public_repos}
             </strong>
-          </div>
-          <div className={styles.userInfoItem} role="listitem">
+          </motion.div>
+
+          <motion.div
+            className={styles.userInfoItem}
+            role="listitem"
+            whileHover={{ scale: 1.05 }}
+            variants={itemVariants}
+          >
+            <motion.div
+              whileHover={{ rotate: 15 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Users size={24} weight="bold" aria-hidden="true" />
+            </motion.div>
             <p id="followers-label">Followers</p>
             <strong aria-labelledby="followers-label" tabIndex={0}>
               {props.userInformation?.followers}
             </strong>
-          </div>
-          <div className={styles.userInfoItem} role="listitem">
+          </motion.div>
+
+          <motion.div
+            className={styles.userInfoItem}
+            role="listitem"
+            whileHover={{ scale: 1.05 }}
+            variants={itemVariants}
+          >
+            <motion.div
+              whileHover={{ rotate: 15 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <UserPlus size={24} weight="bold" aria-hidden="true" />
+            </motion.div>
             <p id="following-label">Following</p>
             <strong aria-labelledby="following-label" tabIndex={0}>
               {props.userInformation?.following}
             </strong>
-          </div>
-        </div>
-      </main>
-      <footer>
-        <section
+          </motion.div>
+        </motion.div>
+      </motion.main>
+
+      <motion.footer variants={itemVariants}>
+        <motion.section
           className={styles.otherInfo}
           role="contentinfo"
           aria-label="Additional user information"
+          variants={itemVariants}
         >
-          <div
+          <motion.div
             className={
               !props.userInformation?.location
                 ? styles.infoNotAvailable
                 : styles.otherInfoItem
             }
             role="complementary"
+            whileHover={{ x: 10 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            variants={itemVariants}
           >
             <MapPin size={24} aria-hidden="true" />
             <p
@@ -137,14 +233,18 @@ const UserDetails: FC<DetailsProps> = (props) => {
                 ? "Not Available"
                 : props.userInformation?.location}
             </p>
-          </div>
-          <div
+          </motion.div>
+
+          <motion.div
             className={
               !props.userInformation?.blog
                 ? styles.infoNotAvailable
                 : styles.otherInfoItem
             }
             role="complementary"
+            whileHover={{ x: 10 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            variants={itemVariants}
           >
             <Browser size={24} aria-hidden="true" />
             {!props.userInformation?.blog ? (
@@ -152,23 +252,28 @@ const UserDetails: FC<DetailsProps> = (props) => {
                 Not Available
               </p>
             ) : (
-              <a
+              <motion.a
                 href={props.userInformation.blog}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Visit user's website: ${props.userInformation.blog}`}
+                whileHover={{ scale: 1.05 }}
               >
                 {props.userInformation.blog}
-              </a>
+              </motion.a>
             )}
-          </div>
-          <div
+          </motion.div>
+
+          <motion.div
             className={
               !props.userInformation?.twitter_username
                 ? styles.infoNotAvailable
                 : styles.otherInfoItem
             }
             role="complementary"
+            whileHover={{ x: 10 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            variants={itemVariants}
           >
             <TwitterLogo size={24} aria-hidden="true" />
             {!props.userInformation?.twitter_username ? (
@@ -176,17 +281,25 @@ const UserDetails: FC<DetailsProps> = (props) => {
                 Not Available
               </p>
             ) : (
-              <a
+              <motion.a
                 href={`https://twitter.com/${props.userInformation.twitter_username}`}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Visit ${props.userInformation.twitter_username}'s Twitter profile`}
+                whileHover={{ scale: 1.05 }}
               >
                 {props.userInformation.twitter_username}
-              </a>
+              </motion.a>
             )}
-          </div>
-          <div className={styles.otherInfoItem} role="complementary">
+          </motion.div>
+
+          <motion.div
+            className={styles.otherInfoItem}
+            role="complementary"
+            whileHover={{ x: 10 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            variants={itemVariants}
+          >
             <Buildings size={24} aria-hidden="true" />
             <p
               tabIndex={0}
@@ -200,10 +313,10 @@ const UserDetails: FC<DetailsProps> = (props) => {
                 ? displayCompany(props.userInformation.company)
                 : "Not Available"}
             </p>
-          </div>
-        </section>
-      </footer>
-    </div>
+          </motion.div>
+        </motion.section>
+      </motion.footer>
+    </motion.div>
   );
 };
 

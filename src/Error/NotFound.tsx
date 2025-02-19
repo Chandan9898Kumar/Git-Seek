@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 
 interface ErrorProps {
-  isError: string;
+  isError?: string;
 }
 
 // Used const as an assertion in TypeScript .

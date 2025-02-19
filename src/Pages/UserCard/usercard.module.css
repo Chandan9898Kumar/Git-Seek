@@ -1,31 +1,81 @@
 .user {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .userResults {
-    width: 45rem;
-    margin: 0 auto;
+  width: 45rem;
+  margin: 0 auto;
 }
 
-.user button {
-    margin: 2rem auto 0;
-    cursor: pointer;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--details-color);
-    color: var(--button-color);
-    border: transparent;
-    border-radius: 12px;
-    transition: background-color 200ms;
+.backButton {
+  margin: 2rem auto 0;
+  position: relative;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #0366d6;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(3, 102, 214, 0.2);
+  overflow: hidden;
+  transition: all 0.8s linear;
 }
 
-.user button:hover {
-    background-color: var(--hover-details-color);
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Add hover effect for the shadow */
+.backButton:hover {
+  box-shadow: 0 6px 8px rgba(3, 102, 214, 0.3);
+}
+
+/* Add focus styles */
+.backButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.4);
+}
+
+/* Add active styles */
+.backButton:active {
+  transform: translateY(1px);
+}
+
+/* Ensure the button text remains white */
+.backButton,
+.backButton:hover,
+.backButton:focus,
+.backButton:active {
+  color: white;
 }
 
 @media (max-width: 768px) {
-    .userResults {
-        width: clamp(10rem, 85vw, 35rem);
-    }
+  .userResults {
+    width: clamp(10rem, 85vw, 35rem);
+  }
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+  .backButton {
+    width: 85%;
+    margin-top: 1rem;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .backButton {
+    transition: none;
+  }
+
+  .buttonContent {
+    animation: none;
+  }
 }

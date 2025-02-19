@@ -3,6 +3,7 @@ import { ProductList } from "../../Interface/Interface";
 import styles from "./index.module.css";
 import Card from "../../Components/Card/Card";
 import Loader from "../../Components/Loader/Loader";
+import NotFoundView from "../../Error/NotFound";
 const URL = "https://api.github.com/users";
 
 const IndexPage = () => {
@@ -41,7 +42,7 @@ const IndexPage = () => {
   }
 
   if (isError) {
-    return <p>Something Went Wrong ...</p>;
+    return <NotFoundView />;
   }
 
   return (
